@@ -2,7 +2,7 @@ from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 
-from bot.keyboards.inline import main_menu_kb, courses_kb, share_kb
+from bot.keyboards.inline import main_menu_kb, courses_kb, course_detail_kb, share_kb
 from bot.db.database import get_course_prices
 
 router = Router()
@@ -47,7 +47,16 @@ async def show_courses(message: Message):
 async def course_info(callback: CallbackQuery):
     key = callback.data.split(":")[1]
     text = COURSES_TEXT.get(key, "Інформація тимчасово недоступна.")
-    await callback.message.edit_text(text, parse_mode="HTML", reply_markup=courses_kb())
+    await callback.message.edit_text(text, parse_mode="HTML", reply_markup=course_detail_kb())
+    await callback.answer()
+
+
+@router.callback_query(F.data == "back_to_courses")
+async def back_to_courses(callback: CallbackQuery):
+    await callback.message.edit_text(
+        "Оберіть напрямок, щоб дізнатися більше:",
+        reply_markup=courses_kb(),
+    )
     await callback.answer()
 
 

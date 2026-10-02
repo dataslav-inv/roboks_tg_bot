@@ -28,6 +28,12 @@ def courses_kb() -> InlineKeyboardMarkup:
     return builder.as_markup()
 
 
+def course_detail_kb() -> InlineKeyboardMarkup:
+    builder = InlineKeyboardBuilder()
+    builder.row(InlineKeyboardButton(text="⬅️ Назад до курсів", callback_data="back_to_courses"))
+    return builder.as_markup()
+
+
 def course_choice_kb() -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     builder.row(InlineKeyboardButton(text="Робототехніка", callback_data="select_course:Робототехніка"))
